@@ -43,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access private
 
 const loginUser = asyncHandler(async (req, res) => {
-    const {email, password} = req.body;
+    const {id , email, password} = req.body;
     if (!email || !password){
         req.status(400);
         throw new Error("all mandatory");
@@ -55,13 +55,13 @@ const loginUser = asyncHandler(async (req, res) => {
         const accessToken = jwt.sign({
             user: {
                 username: user.username,
-                emai: user.email,
+                email: user.email,
                 id: user.id,
 
             },
         },
     process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn: "1m"}
+    {expiresIn: "15m"}
 );
         res.status(200).json({accessToken});
     }else{
@@ -75,7 +75,8 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access private
 
 const currentUser = asyncHandler(async (req, res) => {
-    res.json({message: "Current user"});
+    console.log(" currentuser ");
+    res.json(req.user);
 });
 
 module.exports = {registerUser, loginUser, currentUser};
